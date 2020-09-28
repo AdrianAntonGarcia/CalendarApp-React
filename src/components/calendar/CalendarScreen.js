@@ -11,7 +11,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'moment/locale/es';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiOpenModal } from '../../actions/ui';
-import { setActive } from '../../actions/events';
+import { eventSetActive } from '../../actions/events';
 import { AddNewFab } from '../ui/AddNewFab';
 
 moment.locale('es');
@@ -43,8 +43,8 @@ export const CalendarScreen = () => {
   };
 
   const onSelectEvent = (e) => {
-    dispatch(setActive(e));
-    dispatch(uiOpenModal());
+    dispatch(eventSetActive(e));
+    //dispatch(uiOpenModal());
   };
 
   const onViewChange = (vistaActual) => {

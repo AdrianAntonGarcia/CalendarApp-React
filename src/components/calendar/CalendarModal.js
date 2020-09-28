@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Modal from 'react-modal';
 import DateTimePicker from 'react-datetime-picker';
@@ -7,7 +7,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
-import { eventAddNew } from '../../actions/events';
+import { eventAddNew, eventClearActiveEvent } from '../../actions/events';
 
 const customStyles = {
   content: {
@@ -25,6 +25,13 @@ Modal.setAppElement('#root');
 const now = moment().minutes(0).seconds(0).add(1, 'hour');
 const end = moment().minutes(0).seconds(0).add(2, 'hour');
 
+const initEvent = {
+  title: '',
+  notes: '',
+  start: now.toDate(),
+  end: end.toDate(),
+};
+
 export const CalendarModal = () => {
   const [dateStart, setdateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(end.toDate());
@@ -35,15 +42,22 @@ export const CalendarModal = () => {
   const { modalOpen } = useSelector((state) => {
     return state.ui;
   });
-
-  const [formValues, setformValues] = useState({
-    title: 'Evento',
-    notes: '',
-    start: now.toDate(),
-    end: end.toDate(),
+  const { activeEvent } = useSelector((state) => {
+    console.log('entro');
+    return state.calendar;
   });
 
+  const [formValues, setformValues] = useState(initEvent);
+
   const { notes, title, start: startForm, end: endForm } = formValues;
+
+  useEffect(() => {
+    if (activeEvent) {
+      setformValues(activeEvent);
+    } else {
+      setformValues(initEvent);
+    }
+  }, [activeEvent, setformValues]);
 
   const handleInputChange = ({ target }) => {
     setformValues({
@@ -53,6 +67,10 @@ export const CalendarModal = () => {
   };
   const closeModal = () => {
     dispatch(uiCloseModal());
+    // Reestablecemos el evento activo
+    dispatch(eventClearActiveEvent());
+    //Reestablecemos el formulario
+    setformValues(initEvent);
   };
 
   const handleStartDateChange = (e) => {
