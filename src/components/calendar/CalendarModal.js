@@ -7,6 +7,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
+import { eventAddNew } from '../../actions/events';
 
 const customStyles = {
   content: {
@@ -28,9 +29,8 @@ export const CalendarModal = () => {
   const [dateStart, setdateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(end.toDate());
 
-  
   const [titleValid, setTitleValid] = useState(true);
-  
+
   const dispatch = useDispatch();
   const { modalOpen } = useSelector((state) => {
     return state.ui;
@@ -90,6 +90,14 @@ export const CalendarModal = () => {
     }
 
     //TODO: Realizar grabación en base de datos
+    /*Básicamente el formValues es el evento que queremos almacenar*/
+    dispatch(
+      eventAddNew({
+        ...formValues,
+        id: new Date().getTime(),
+        user: { _id: '123', name: 'Adrian' },
+      })
+    );
     setTitleValid(true);
     closeModal();
   };
