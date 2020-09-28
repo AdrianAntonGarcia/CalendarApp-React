@@ -47,7 +47,6 @@ export const CalendarModal = () => {
     return state.ui;
   });
   const { activeEvent } = useSelector((state) => {
-    console.log('entro');
     return state.calendar;
   });
 
@@ -140,7 +139,7 @@ export const CalendarModal = () => {
       className="modal"
       overlayClassName="modal-fondo"
     >
-      <h1> Nuevo evento </h1>
+      <h1> {activeEvent ? 'Editar Evento' : 'Nuevo Evento'}</h1>
       <hr />
       <form className="container" onSubmit={handleSubmitForm}>
         <div className="form-group">
