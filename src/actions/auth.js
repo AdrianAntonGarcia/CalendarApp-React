@@ -1,6 +1,13 @@
+import Swal from 'sweetalert2';
 import { fetchSinToken } from '../helpers/fetch';
 import { types } from '../types/types';
 
+/**
+ * Acción asíncrona que realiza el login del usuario, llamando a la base de datos y
+ * llamando a la acción para guardar el estado del usuario
+ * @param {*} email
+ * @param {*} password
+ */
 export const startLogin = (email, password) => {
   return async (dispatch) => {
     const resp = await fetchSinToken('auth', { email, password }, 'POST');
@@ -14,10 +21,42 @@ export const startLogin = (email, password) => {
           name: body.name,
         })
       );
+    } else {
+      Swal.fire('Error', body.msg, 'error');
     }
   };
 };
 
+/**
+ * Acción asíncrona que realiza el registro del usuario, llamando a la base de datos y
+ * llamando a la acción para guardar el estado del usuario
+ * @param {*} email
+ * @param {*} password
+ * @param {*} name
+ */
+export const startRegister = (email, password, name) => {
+  return async (dispatch) => {
+    const resp = await fetchSinToken('auth/new', { name, email, password }, 'POST');
+    const body = await resp.json();
+    if (body.ok) {
+        localStorage.setItem('token', body.token);
+        localStorage.setItem('token-init-date', new Date().getTime());
+        dispatch(
+          login({
+            uid: body.uid,
+            name: body.name,
+          })
+        );
+      } else {
+        Swal.fire('Error', body.msg, 'error');
+      }
+  };
+};
+
+/**
+ * Acción síncrona que guarda el estado del usuario
+ * @param {*} user
+ */
 const login = (user) => ({
   type: types.authLogin,
   payload: user,
