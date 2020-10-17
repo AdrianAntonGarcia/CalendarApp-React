@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
+import { startChecking } from '../actions/auth';
 import { LoginScreen } from '../components/auth/LoginScreen';
 import { CalendarScreen } from '../components/calendar/CalendarScreen';
 export const AppRouter = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(startChecking());
+  }, [dispatch]);
   return (
     <Router>
       <div>
@@ -15,8 +22,7 @@ export const AppRouter = () => {
           <Route exact path="/login">
             <LoginScreen />
           </Route>
-          <Route exact path="/" component={CalendarScreen}>
-          </Route>
+          <Route exact path="/" component={CalendarScreen}></Route>
           <Redirect to="/login" />
         </Switch>
       </div>
