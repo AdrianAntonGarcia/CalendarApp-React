@@ -57,10 +57,15 @@ export const startRegister = (email, password, name) => {
   };
 };
 
+/**
+ * Acción asíncrona que comprueba que el token del usuario sea siendo
+ * válido y mantiene la sesión del usuario
+ */
 export const startChecking = () => {
   return async (dispatch) => {
     const resp = await fetchConToken('auth/renew');
     const body = await resp.json();
+    console.log('Renew');
     if (body.ok) {
       localStorage.setItem('token', body.token);
       localStorage.setItem('token-init-date', new Date().getTime());
@@ -77,6 +82,9 @@ export const startChecking = () => {
   };
 };
 
+/**
+ * Ponemos el checking a false
+ */
 const checkingFinish = () => ({
   type: types.authCheckingFinish,
 });
@@ -88,4 +96,15 @@ const checkingFinish = () => ({
 const login = (user) => ({
   type: types.authLogin,
   payload: user,
+});
+
+export const startLogout = () => {
+  return async (dispatch) => {
+    localStorage.clear();
+    dispatch(logout());
+  };
+};
+
+const logout = () => ({
+  type: types.authLogout,
 });
