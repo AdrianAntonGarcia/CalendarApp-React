@@ -63,7 +63,6 @@ export const CalendarScreen = () => {
   };
 
   const onSelectedSlot = (e) => {
-    // console.log(e);
     dispatch(eventClearActiveEvent());
   };
   return (

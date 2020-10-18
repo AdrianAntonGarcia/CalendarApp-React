@@ -7,7 +7,6 @@ export const PrivateRoute = ({
   component: Component,
   ...rest
 }) => {
-  //   console.log(rest.location.pathname);
   return (
     <Route
       {...rest}
