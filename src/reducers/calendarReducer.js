@@ -1,21 +1,18 @@
-import moment from 'moment';
 import { types } from '../types/types';
 
+// {
+//   id: 'dishajdhjsa',
+//   title: 'Cumpleaños del jefe',
+//   start: moment().toDate(), //new Date en moment
+//   end: moment().add(2, 'hours').toDate(),
+//   notes: 'Comprar el pastel',
+//   user: {
+//     _id: '123',
+//     name: 'Adrian',
+//   },
+// },
 const initialState = {
-  events: [
-    {
-      id: new Date().getTime(),
-      title: 'Cumpleaños del jefe',
-      start: moment().toDate(), //new Date en moment
-      end: moment().add(2, 'hours').toDate(),
-      bgcolor: '#fafafa',
-      notes: 'Comprar el pastel',
-      user: {
-        _id: '123',
-        name: 'Adrian',
-      },
-    },
-  ],
+  events: [],
   activeEvent: null,
 };
 

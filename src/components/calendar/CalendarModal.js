@@ -8,8 +8,8 @@ import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import { uiCloseModal } from '../../actions/ui';
 import {
-  eventAddNew,
   eventClearActiveEvent,
+  eventStartAddNew,
   eventUpdated,
 } from '../../actions/events';
 
@@ -117,13 +117,7 @@ export const CalendarModal = () => {
       dispatch(eventUpdated(formValues));
     } else {
       /*Básicamente el formValues es el evento que queremos almacenar*/
-      dispatch(
-        eventAddNew({
-          ...formValues,
-          id: new Date().getTime(),
-          user: { _id: '123', name: 'Adrian' },
-        })
-      );
+      dispatch(eventStartAddNew(formValues));
     }
     //TODO: Realizar grabación en base de datos
 
