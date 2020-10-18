@@ -10,7 +10,7 @@ import { uiCloseModal } from '../../actions/ui';
 import {
   eventClearActiveEvent,
   eventStartAddNew,
-  eventUpdated,
+  eventStartUpdate,
 } from '../../actions/events';
 
 const customStyles = {
@@ -114,7 +114,7 @@ export const CalendarModal = () => {
      * que actualizar, si no sería añadir uno nuevo
      */
     if (activeEvent) {
-      dispatch(eventUpdated(formValues));
+      dispatch(eventStartUpdate(formValues));
     } else {
       /*Básicamente el formValues es el evento que queremos almacenar*/
       dispatch(eventStartAddNew(formValues));
